@@ -9,7 +9,15 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>{
+  int streak = 0;
+  String? lastCompletedDate;
+  @override
+  void initState() {
+    super.initState();
+    _loadStreak();
+  }
+
   void _showAddTaskDialog(BuildContext context, Box<Task> box) {
     final TextEditingController controller = TextEditingController();
 
