@@ -19,9 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Add Task"),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
-            hintText: "Enter task title",
-          ),
+          decoration: const InputDecoration(hintText: "Enter task title"),
         ),
         actions: [
           TextButton(
@@ -87,10 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const Text(
                   "No excuses. Just action. 🔥",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white70,
-                  ),
+                  style: TextStyle(fontSize: 15, color: Colors.white70),
                 ),
 
                 const SizedBox(height: 20),
@@ -109,29 +104,41 @@ class _HomeScreenState extends State<HomeScreen> {
                             task.createdAt.day == today.day;
                       }).toList();
 
-                      final completedToday =
-                          todayTasks.where((task) => task.isCompleted).length;
+                      final completedToday = todayTasks
+                          .where((task) => task.isCompleted)
+                          .length;
 
-                      final percentToday = todayTasks.isEmpty ? 0 : ((completedToday / todayTasks.length) * 100).round();
-                      final todayString = "${today.year}-${today.month}-${today.day}";
+                      final percentToday = todayTasks.isEmpty
+                          ? 0
+                          : ((completedToday / todayTasks.length) * 100)
+                                .round();
+                      final todayString =
+                          "${today.year}-${today.month}-${today.day}";
                       if (percentToday == 100 && todayTasks.isNotEmpty) {
                         if (lastCompletedDate != todayString) {
                           streak += 1;
-                          lastCompletedDate = todayString;        
+                          lastCompletedDate = todayString;
+                          SharedPreferences.getInstance().then((prefs) {
+                            prefs.setInt('streak', streak);
+                            prefs.setString('lastCompletedDate', todayString);
+                          });
+                        }
+                      }
 
                       return Column(
                         children: [
                           /// DASHBOARD
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 18, vertical: 14),
+                              horizontal: 18,
+                              vertical: 14,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
                                   "🔥 1 Day Streak",
@@ -172,20 +179,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                       final task = tasks[index];
 
                                       return Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 16),
-                                        padding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 18,
-                                                vertical: 16),
+                                        margin: const EdgeInsets.only(
+                                          bottom: 16,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 18,
+                                          vertical: 16,
+                                        ),
                                         decoration: BoxDecoration(
-                                          color: Colors.white
-                                              .withOpacity(0.15),
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                          color: Colors.white.withOpacity(0.15),
+                                          borderRadius: BorderRadius.circular(
+                                            24,
+                                          ),
                                           border: Border.all(
-                                            color: Colors.white
-                                                .withOpacity(0.2),
+                                            color: Colors.white.withOpacity(
+                                              0.2,
+                                            ),
                                           ),
                                         ),
                                         child: Row(
@@ -199,8 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               child: Container(
                                                 width: 26,
                                                 height: 26,
-                                                decoration:
-                                                    BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   border: Border.all(
                                                     color: Colors.white,
@@ -208,15 +216,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                   color: task.isCompleted
                                                       ? Colors.white
-                                                      : Colors
-                                                          .transparent,
+                                                      : Colors.transparent,
                                                 ),
                                                 child: task.isCompleted
                                                     ? const Icon(
                                                         Icons.check,
                                                         size: 16,
                                                         color: Color(
-                                                            0xFF6D5DF6),
+                                                          0xFF6D5DF6,
+                                                        ),
                                                       )
                                                     : null,
                                               ),
@@ -227,14 +235,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 task.title,
                                                 style: TextStyle(
                                                   fontSize: 17,
-                                                  fontWeight:
-                                                      FontWeight.w600,
+                                                  fontWeight: FontWeight.w600,
                                                   color: Colors.white,
-                                                  decoration:
-                                                      task.isCompleted
-                                                          ? TextDecoration
-                                                              .lineThrough
-                                                          : null,
+                                                  decoration: task.isCompleted
+                                                      ? TextDecoration
+                                                            .lineThrough
+                                                      : null,
                                                 ),
                                               ),
                                             ),
@@ -266,14 +272,9 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.white,
         elevation: 8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         onPressed: () => _showAddTaskDialog(context, box),
-        icon: const Icon(
-          Icons.add,
-          color: Color.fromARGB(255, 118, 159, 248),
-        ),
+        icon: const Icon(Icons.add, color: Color.fromARGB(255, 118, 159, 248)),
         label: const Text("Remembered something?"),
       ),
     );
