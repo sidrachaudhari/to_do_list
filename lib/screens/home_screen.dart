@@ -112,10 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       final completedToday =
                           todayTasks.where((task) => task.isCompleted).length;
 
-                      final percentToday = todayTasks.isEmpty
-                          ? 0
-                          : ((completedToday / todayTasks.length) * 100)
-                              .round();
+                      final percentToday = todayTasks.isEmpty ? 0 : ((completedToday / todayTasks.length) * 100).round();
+                      final todayString = "${today.year}-${today.month}-${today.day}";
+                      if (percentToday == 100 && todayTasks.isNotEmpty) {
+                        if (lastCompletedDate != todayString) {
+                          streak += 1;
+                          lastCompletedDate = todayString;        
 
                       return Column(
                         children: [
