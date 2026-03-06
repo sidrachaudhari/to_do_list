@@ -18,6 +18,14 @@ class _HomeScreenState extends State<HomeScreen>{
     _loadStreak();
   }
 
+    Future<void> _loadStreak() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      streak = prefs.getInt('streak') ?? 0;
+      lastCompletedDate = prefs.getString('lastCompletedDate');
+    });
+  }
+
   void _showAddTaskDialog(BuildContext context, Box<Task> box) {
     final TextEditingController controller = TextEditingController();
 
